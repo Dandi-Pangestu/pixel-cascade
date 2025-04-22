@@ -9,7 +9,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"image"
+	_ "image/gif"
 	"image/jpeg"
+	_ "image/png"
 	"log"
 	"path/filepath"
 	"strings"
@@ -49,6 +51,7 @@ func handler(ctx context.Context, event events.SQSEvent) error {
 			log.Printf("failed to get object from S3: %s\n", err)
 			return err
 		}
+		defer objOutput.Body.Close()
 		log.Printf("content type: %s\n", *objOutput.ContentType)
 		log.Printf("content length: %d\n", *objOutput.ContentLength)
 
